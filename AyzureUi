@@ -1,0 +1,516 @@
+if game.CoreGui:FindFirstChild("azure") then
+	game.CoreGui:FindFirstChild("azure"):Destroy()
+end
+-- drag
+local UserInputService = game:GetService("UserInputService")
+local function MakeDraggable(topbarobject, object)
+	local Dragging = nil
+	local DragInput = nil
+	local DragStart = nil
+	local StartPosition = nil
+
+	local function Update(input)
+		local Delta = input.Position - DragStart
+		object.Position = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
+	end
+
+	topbarobject.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			Dragging = true
+			DragStart = input.Position
+			StartPosition = object.Position
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					Dragging = false
+				end
+			end)
+		end
+	end)
+
+	topbarobject.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			DragInput = input
+		end
+	end)
+
+	UserInputService.InputChanged:Connect(function(input)
+		if input == DragInput and Dragging then
+			Update(input)
+		end
+	end)
+end
+
+local win = {}
+
+function win:CreateWindow(gtext)
+	local azure = Instance.new("ScreenGui")
+	local main_container = Instance.new("Frame")
+	local top = Instance.new("Frame")
+	local rights = Instance.new("TextLabel")
+	local line = Instance.new("Frame")
+	local game_name = Instance.new("TextLabel")
+	local close = Instance.new("TextButton")
+	local side_bar = Instance.new("Frame")
+	local Tab_BHolder = Instance.new("ScrollingFrame")
+	local BLayout = Instance.new("UIListLayout")
+	local pages = Instance.new("Frame")
+	azure.Name = "azure"
+	azure.Parent = game.CoreGui
+	azure.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	azure.DisplayOrder = 1000000000
+	MakeDraggable(top, main_container)
+
+	main_container.Name = "main_container"
+	main_container.Parent = azure
+	main_container.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
+	main_container.BorderColor3 = Color3.fromRGB(108, 108, 108)
+	main_container.BorderSizePixel = 1
+	main_container.Position = UDim2.new(0.267832994, 0, 0.674042583, 0)
+	main_container.Size = UDim2.new(0, 477, 0, 273)
+
+	top.Name = "top"
+	top.Parent = main_container
+	top.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+	top.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	top.BorderSizePixel = 0
+	top.Size = UDim2.new(0, 477, 0, 29)
+
+	rights.Name = "rights"
+	rights.Parent = top
+	rights.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	rights.BackgroundTransparency = 1.000
+	rights.Position = UDim2.new(0.0167714879, 0, 0.237931043, 0)
+	rights.Size = UDim2.new(0, 94, 0, 15)
+	rights.Font = Enum.Font.Gotham
+	rights.Text = "AzureUI"
+	rights.TextColor3 = Color3.fromRGB(255, 255, 255)
+	rights.TextSize = 13.000
+	rights.TextXAlignment = Enum.TextXAlignment.Left
+
+	line.Name = "line"
+	line.Parent = top
+	line.BackgroundColor3 = Color3.fromRGB(149, 0, 255)
+	line.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	line.BorderSizePixel = 0
+	line.Position = UDim2.new(0, 0, 0.98810029, 0)
+	line.Size = UDim2.new(0, 477, 0, 1)
+
+	game_name.Name = "game_name"
+	game_name.Parent = top
+	game_name.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	game_name.BackgroundTransparency = 1.000
+	game_name.Position = UDim2.new(0.123689719, 0, 0.237931907, 0)
+	game_name.Size = UDim2.new(0, 94, 0, 7)
+	game_name.Font = Enum.Font.Gotham
+	game_name.Text = "["..gtext.."]"
+	game_name.TextColor3 = Color3.fromRGB(255, 255, 255)
+	game_name.TextSize = 11.000
+	game_name.TextTransparency = 0.630
+	game_name.TextWrapped = true
+	game_name.TextXAlignment = Enum.TextXAlignment.Left
+
+	close.Name = "close"
+	close.Parent = top
+	close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	close.BackgroundTransparency = 1.000
+	close.Position = UDim2.new(0.941299677, 0, 0, 0)
+	close.Size = UDim2.new(0, 27, 0, 28)
+	close.Font = Enum.Font.SourceSans
+	close.Text = "_"
+	close.TextColor3 = Color3.fromRGB(255, 255, 255)
+	close.TextSize = 14.000
+
+	side_bar.Name = "side_bar"
+	side_bar.Parent = main_container
+	side_bar.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+	side_bar.BorderSizePixel = 0
+	side_bar.Position = UDim2.new(0, 0, 0.10862603, 0)
+	side_bar.Size = UDim2.new(0, 124, 0, 243)
+
+	Tab_BHolder.Name = "Tab_BHolder"
+	Tab_BHolder.Parent = side_bar
+	Tab_BHolder.Active = true
+	Tab_BHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Tab_BHolder.BackgroundTransparency = 1.000
+	Tab_BHolder.BorderSizePixel = 0
+	Tab_BHolder.Position = UDim2.new(0.066397883, 0, 0.0368852466, 0)
+	Tab_BHolder.Size = UDim2.new(0, 106, 0, 226)
+	Tab_BHolder.ScrollBarThickness = 0
+
+	BLayout.Name = "BLayout"
+	BLayout.Parent = Tab_BHolder
+	BLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	BLayout.Padding = UDim.new(0, 5)
+
+	local pagearchives = Instance.new("Folder")
+
+	pagearchives.Name = "page_archives"
+	pagearchives.Parent = pages
+
+	local TabLib = {}
+
+	function TabLib:CreateTab(tname)
+		local tab_button = Instance.new("TextButton")
+		local newPAGE = Instance.new("ScrollingFrame")
+		local pageList = Instance.new("UIListLayout")
+		local search = Instance.new("Frame")
+		local searchbox = Instance.new("TextBox")
+		local ImageLabel = Instance.new("ImageLabel")
+		local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+		local n_holder = Instance.new("ScrollingFrame")
+		local n_list = Instance.new("UIListLayout")
+
+		local runService = game:GetService("RunService")
+
+		local function Wwait(n)
+			n = n or 1/60
+			n = math.clamp(n, 1/60, math.huge) 
+
+			local completed, t = Instance.new("BindableEvent"), tick()
+
+			local connection = runService.Heartbeat:Connect(function()
+				if tick() - t >= n then 
+					completed:Fire()         
+				end
+			end)
+
+			completed.Event:Connect(function() 
+				connection:Disconnect()
+			end)
+
+			completed.Event:Wait()
+			return tick() - t
+		end
+
+		function notify(info, time)
+			local notify = Instance.new("Frame")
+			local n_info = Instance.new("TextLabel")
+			local back_wait = Instance.new("Frame")
+			local tween_wait = Instance.new("Frame")
+			local notife = Instance.new("ImageLabel")
+			local warn = Instance.new("UIAspectRatioConstraint")
+			local Sound = Instance.new("Sound",game:GetService("SoundService"))
+			Sound.Parent = notify
+			Sound.SoundId = "rbxassetid://7484806812"
+
+			notife.Name = "notif"
+			notife.Parent = notify
+			notife.BackgroundTransparency = 1.000
+			notife.BorderSizePixel = 0
+			notife.Position = UDim2.new(0.0316909589, 0, 0.129629627, 0)
+			notife.Size = UDim2.new(0, 20, 0, 21)
+			notife.Image = "http://www.roblox.com/asset/?id=6031071053"
+			Sound:Play()
+
+			warn.Name = "warn"
+			warn.Parent = notife
+			n_list.Name = "n_list"
+			n_list.Parent = n_holder
+			n_list.SortOrder = Enum.SortOrder.LayoutOrder
+			n_list.VerticalAlignment = Enum.VerticalAlignment.Bottom
+			n_list.Padding = UDim.new(0, 3)
+
+			notify.Name = "notify"
+			notify.Parent = n_holder
+			notify.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+			notify.BorderColor3 = Color3.fromRGB(250, 250, 250)
+			notify.BorderSizePixel = 0
+			notify.Position = UDim2.new(0, 0, 0.927768767, 0)
+			notify.Size = UDim2.new(0, 208, 0, 45)
+
+			n_info.Name = "n_info"
+			n_info.Parent = notify
+			n_info.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			n_info.BackgroundTransparency = 1.000
+			n_info.Position = UDim2.new(0.0296509713, 0, 0.501994729, 0)
+			n_info.Size = UDim2.new(0, 196, 0, 22)
+			n_info.Font = Enum.Font.Ubuntu
+			n_info.Text = info
+			n_info.TextColor3 = Color3.fromRGB(255, 255, 255)
+			n_info.TextSize = 14.000
+			n_info.TextXAlignment = Enum.TextXAlignment.Left
+
+			back_wait.Name = "back_wait"
+			back_wait.Parent = notify
+			back_wait.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+			back_wait.Position = UDim2.new(0.0288461559, 0, 0.911111116, 0)
+			back_wait.Size = UDim2.new(0, 196, 0, 4)
+
+			tween_wait.Name = "tween_wait"
+			tween_wait.Parent = notify
+			tween_wait.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			tween_wait.Position = UDim2.new(0.028846154, 0, 0.911111116, 0)
+			tween_wait.Size = UDim2.new(0, 1, 0, 4)
+			tween_wait:TweenSize(
+				UDim2.new(0, 198,0, 4),
+				Enum.EasingDirection.Out,
+				Enum.EasingStyle.Quad,
+				time or 3,
+				true
+
+			)
+
+			Wwait(1)
+
+			local TweenService = game:GetService('TweenService')
+			local Frame = notify
+
+			TweenService:Create(
+				Frame, -- UI object you're tweening, in this case it's Frame
+				TweenInfo.new(2), -- Amount of seconds
+				{BackgroundTransparency = 1} -- Goal
+			):Play()
+
+			local TweenService = game:GetService('TweenService')
+			local Frame = n_info
+
+			TweenService:Create(
+				Frame, -- UI object you're tweening, in this case it's Frame
+				TweenInfo.new(2), -- Amount of seconds
+				{TextTransparency = 1} -- Goal
+			):Play()
+
+			local TweenService = game:GetService('TweenService')
+			local Frame = back_wait
+
+			TweenService:Create(
+				Frame, -- UI object you're tweening, in this case it's Frame
+				TweenInfo.new(2), -- Amount of seconds
+				{BackgroundTransparency = 1} -- Goal
+			):Play()
+
+			local TweenService = game:GetService('TweenService')
+			local Frame = tween_wait
+
+			TweenService:Create(
+				Frame, -- UI object you're tweening, in this case it's Frame
+				TweenInfo.new(2), -- Amount of seconds
+				{BackgroundTransparency = 1} -- Goal
+			):Play()
+
+			local TweenService = game:GetService('TweenService')
+			local Frame = notife
+
+			TweenService:Create(
+				Frame, -- UI object you're tweening, in this case it's Frame
+				TweenInfo.new(2), -- Amount of seconds
+				{ImageTransparency = 1} -- Goal
+			):Play()
+		end
+
+		search.Name = "search"
+		search.Parent = newPAGE
+		search.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+		search.BorderSizePixel = 0
+		search.Size = UDim2.new(0, 317, 0, 25)
+
+		n_holder.Name = "n_holder"
+		n_holder.Parent = azure
+		n_holder.Active = true
+		n_holder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		n_holder.BackgroundTransparency = 1.000
+		n_holder.BorderSizePixel = 0
+		n_holder.Position = UDim2.new(0.904310882, 0, 0.504295707, 0)
+		n_holder.Size = UDim2.new(0, 208, 0, 623)
+		n_holder.CanvasSize = UDim2.new(0, 0, 0, 0)
+		n_holder.ScrollBarThickness = 0
+
+		searchbox.Name = "searchbox"
+		searchbox.Parent = search
+		searchbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		searchbox.BackgroundTransparency = 1.000
+		searchbox.Position = UDim2.new(0.0142702907, 0, 0.280000001, 0)
+		searchbox.Size = UDim2.new(0, 271, 0, 11)
+		searchbox.Font = Enum.Font.Ubuntu
+		searchbox.PlaceholderColor3 = Color3.fromRGB(230, 230, 230)
+		searchbox.PlaceholderText = "Search..."
+		searchbox.Text = ""
+		searchbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+		searchbox.TextScaled = true
+		searchbox.TextSize = 11.000
+		searchbox.TextWrapped = true
+		searchbox.TextXAlignment = Enum.TextXAlignment.Left
+
+		ImageLabel.Parent = search
+		ImageLabel.BackgroundTransparency = 1.000
+		ImageLabel.BorderSizePixel = 0
+		ImageLabel.Position = UDim2.new(0.92429024, 0, 0.180000007, 0)
+		ImageLabel.Size = UDim2.new(0, 15, 0, 21)
+		ImageLabel.Image = "http://www.roblox.com/asset/?id=6031154871"
+
+		UIAspectRatioConstraint.Parent = ImageLabel
+
+		local scrollingframe=newPAGE
+		local searchbar=searchbox
+		function UpdateInputOfSearchText()
+			local InputText=string.upper(searchbar.Text)
+			for _,button in pairs(scrollingframe:GetChildren())do
+				if button:IsA("TextButton")then
+					if InputText==""or string.find(string.upper(button.Name),InputText)~=nil then
+						button.Visible=true
+					else
+						button.Visible=false
+					end
+				end
+			end
+		end
+		searchbar.Changed:Connect(UpdateInputOfSearchText)
+
+		tab_button.Name = "tab_button"
+		tab_button.Parent = Tab_BHolder
+		tab_button.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+		tab_button.BorderColor3 = Color3.fromRGB(243, 71, 255)
+		tab_button.BorderSizePixel = 0
+		tab_button.Size = UDim2.new(0, 106, 0, 21)
+		tab_button.AutoButtonColor = false
+		tab_button.Font = Enum.Font.Gotham
+		tab_button.Text = "C:/"..tname
+		tab_button.TextColor3 = Color3.fromRGB(255, 255, 255)
+		tab_button.TextSize = 12.000
+		tab_button.TextXAlignment = Enum.TextXAlignment.Left
+		tab_button.MouseButton1Click:Connect(function()
+			for i,v in next, pagearchives:GetChildren() do
+				v.Visible = false
+			end
+			newPAGE.Visible = true
+
+			for i,v in next, Tab_BHolder:GetChildren() do   -- We get all the elements inside the frame
+				if v:IsA("TextButton") then -- We can't animate UIListLayout, so we check if its a TextButton
+					game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+						BackgroundColor3 = Color3.fromRGB(31, 31, 31) -- We animate other Tab Buttons and making the current one seem Checked
+					}):Play()
+				end
+			end
+			game.TweenService:Create(tab_button, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+				BackgroundColor3 = Color3.fromRGB(58, 58, 58) -- We animate other Tab Buttons and making the current one seem Checked
+			}):Play()
+		end)
+
+		pages.Name = "pages"
+		pages.Parent = main_container
+		pages.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
+		pages.BorderColor3 = Color3.fromRGB(27, 42, 53)
+		pages.BorderSizePixel = 0
+		pages.Position = UDim2.new(0.285115302, 0, 0.10862603, 0)
+		pages.Size = UDim2.new(0, 341, 0, 242)
+		newPAGE.Visible = false
+
+
+		newPAGE.Name = "new_tab"..tname
+		newPAGE.Parent = pagearchives
+		newPAGE.Active = true
+		newPAGE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		newPAGE.BackgroundTransparency = 1.000
+		newPAGE.BorderSizePixel = 0
+		newPAGE.Position = UDim2.new(0.0351906158, 0, 0.0411522612, 0)
+		newPAGE.Size = UDim2.new(0, 317, 0, 224)
+		newPAGE.ScrollBarThickness = 0
+
+		pageList.Name = "pageList"
+		pageList.Parent = newPAGE
+		pageList.SortOrder = Enum.SortOrder.LayoutOrder
+		pageList.Padding = UDim.new(0, 5)
+
+		local elements = {}
+
+		function elements:CreateButton(btntext, callback)
+			btntext = btntext or "button"
+			callback = callback or function() end 
+			local page_button = Instance.new("TextButton")
+			local CMD = Instance.new("TextLabel")
+
+			page_button.Name = btntext
+			page_button.Parent = newPAGE
+			page_button.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+			page_button.BorderColor3 = Color3.fromRGB(149, 0, 255)
+			page_button.BorderSizePixel = 0
+			page_button.Position = UDim2.new(0, 0, -2.72478388e-07, 0)
+			page_button.Size = UDim2.new(0, 317,0, 22)
+			page_button.AutoButtonColor = false
+			page_button.Font = Enum.Font.Gotham
+			page_button.Text = ""
+			page_button.TextColor3 = Color3.fromRGB(255, 255, 255)
+			page_button.TextSize = 14.000
+			page_button.TextXAlignment = Enum.TextXAlignment.Left
+			page_button.MouseButton1Click:Connect(function()
+				callback()
+			end)
+
+			CMD.Name = "CMD"
+			CMD.Parent = page_button
+			CMD.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			CMD.BackgroundTransparency = 1.000
+			CMD.Position = UDim2.new(0.0378548913, 0, 0.111111112, 0)
+			CMD.Size = UDim2.new(0, 200, 0, 20)
+			CMD.Font = Enum.Font.Ubuntu
+			CMD.Text = "/"..btntext.."/"
+			CMD.TextColor3 = Color3.fromRGB(255, 255, 255)
+			CMD.TextSize = 12.000
+			CMD.TextXAlignment = Enum.TextXAlignment.Left
+		end
+
+		function elements:CreateToggle(tinfo, callback)
+			callback = callback or function() end
+
+			local page_toggle = Instance.new("TextButton")
+			local CMD_2 = Instance.new("TextLabel")
+			local toggle = Instance.new("Frame")
+
+			page_toggle.Name = "page_toggle"
+			page_toggle.Parent = newPAGE
+			page_toggle.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+			page_toggle.BorderColor3 = Color3.fromRGB(149, 0, 255)
+			page_toggle.BorderSizePixel = 0
+			page_toggle.Position = UDim2.new(0, 0, -2.72478388e-07, 0)
+			page_toggle.Size = UDim2.new(0, 317,0, 22)
+			page_toggle.AutoButtonColor = false
+			page_toggle.Font = Enum.Font.Gotham
+			page_toggle.Text = ""
+			page_toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+			page_toggle.TextSize = 14.000
+			page_toggle.TextXAlignment = Enum.TextXAlignment.Left
+
+			CMD_2.Name = "CMD"
+			CMD_2.Parent = page_toggle
+			CMD_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			CMD_2.BackgroundTransparency = 1.000
+			CMD_2.Position = UDim2.new(0.0378548913, 0, 0.111111112, 0)
+			CMD_2.Size = UDim2.new(0, 200, 0, 20)
+			CMD_2.Font = Enum.Font.Ubuntu
+			CMD_2.Text = "/"..tinfo.."/"
+			CMD_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+			CMD_2.TextSize = 12.000
+			CMD_2.TextXAlignment = Enum.TextXAlignment.Left
+
+			toggle.Name = "toggle"
+			toggle.Parent = page_toggle
+			toggle.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+			toggle.BorderSizePixel = 0
+			toggle.Position = UDim2.new(0.813880146, 0, 0.304712474, 0)
+			toggle.Size = UDim2.new(0, 50,0, 10)
+
+			local tog = false
+
+			page_toggle.MouseButton1Click:Connect(function()
+				tog = not tog
+				callback(tog) -- Callbacks whenever we toggle
+				if tog then 
+					game.TweenService:Create(toggle, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+						BackgroundColor3 = Color3.fromRGB(221, 166, 255)
+					}):Play()
+					--- We put our animation here when the toggle is on
+				else
+					game.TweenService:Create(toggle, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+						BackgroundColor3 = Color3.fromRGB(48,48,48)
+					}):Play()
+					---We Put our animation here when the toggle is off
+				end
+			end)
+		end
+
+		return elements
+	end
+	return TabLib
+end
+return win
